@@ -1,0 +1,326 @@
+\documentclass{article}
+\usepackage{graphicx}% Required for inserting images
+\usepackage{lindrew}
+\usepackage{pdfpages}
+\usepackage[shortlabels]{enumitem}
+\usepackage{matlab-prettifier}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\title{ACM 104 Midterm}
+\author{Amitesh Pandey}
+\date{November 2024}
+\begin{document}
+\maketitle
+\section*{Problem 1}
+(a) \emph{False}. If $u$ is a linear combination of $v$ and $w$,
+\begin{equation*}
+    u = k_{1}v + k_{2}w
+\end{equation*}
+for $k_{1}, k_{2} \in \mathbb{Z}$. However, we can solve for $v$ as follows:
+\begin{equation*}
+    \frac{1}{k_1}u -\frac{k_2}{k_1}w = v
+\end{equation*}
+It is obvious that $1/k_1$ and $k_2/k_1$ need not be integers, thus the statement is false.\\\\
+(b) \emph{True.} First note that if $\text{Ker} A = \text{Ker} B$, then $A$ and $B$ must have the same number of columns $n$. This is because for any matrix $T \in M_{m\times n}$ over field $\mathbb{R}$, the kernel of $T$ is defined as
+\begin{equation*}
+    \text{Ker} T = \{\mathbf{x} \in \mathbb{R}^{n} \ | \ T\mathbf{x} = \mathbf{0}\}
+\end{equation*}
+It wouldn't be possible for all elements of $A$ and $B$ to have equal length unless the number of columns of the two matrices were equal. Also trivially $\text{dim}(\text{Ker}A) = \text{dim}(\text{Ker}B)$. By the rank-nullity theorem
+\begin{equation*}
+    \text{dim}(\text{Ker}A) = n - \text{Rank} A = \text{dim}(\text{Ker}B) = n - \text{Rank} B \implies \text{Rank} A = \text{Rank}B
+\end{equation*}
+(c) \emph{False. }Consider the counterexample:
+\begin{equation*}
+    A = \begin{pmatrix}
+        1 & 0\\
+        1 & 0
+    \end{pmatrix}
+\end{equation*}
+Then, for the reduced row-echelon form we have
+\begin{equation*}
+    \text{rref}(A) = \begin{pmatrix}
+        1 & 0\\
+        0 & 0
+    \end{pmatrix}
+\end{equation*}
+So then we have
+\begin{align*}
+    \text{Ker}A &= \{ \langle 0, 1\rangle^{T} k \ | \ k \in\mathbb{R}\}\\
+    \text{Im}A &= \{\langle 1,1\rangle^{T}\}
+\end{align*}
+Clearly $\text{Ker}A \cap \text{Im}A \neq \{0\}$.
+\newpage
+\noindent{(d)} \emph{True}. If $A$ and $B$ are positive definite, we know $x^{T}Ax, x^{T}Bx > 0$ for all $x \neq \mathbf{0}$. This then implies
+\begin{align*}
+    x^{T}Ax + x^{T}Bx &> 0\\
+    (x^{T})^{-1}(x^{T}Ax + x^{T}Bx) &> 0\\
+    (A+B)x &>0\\
+    x^{T}(A+B)x &>0
+\end{align*}
+Thus $A+B$ is also positive definite.\\\\
+(e) \emph{True}. This is because $||u|| \leq ||u + v + (-v)|| = ||u + v|| + ||-v|| $ by the Triangle inequality, but $||-v|| = ||v||$ so we finally have $||u|| < ||u+v|| + ||v||$ as desired.
+\section*{Problem 2}
+\emph{Solution. }We need to check for $k_1, k_2, k_3, k_4$ that
+\begin{equation*}
+    k_{1}\begin{pmatrix}
+        1\\
+        0\\
+        4
+    \end{pmatrix} + k_{2}\begin{pmatrix}
+        e\\
+        \pi \\
+        \sqrt{104}
+    \end{pmatrix} + k_{3}\begin{pmatrix}
+        \frac{1}{2}\\
+        \frac{1}{3} \\
+        \frac{1}{4}
+    \end{pmatrix}  + k_{4}\begin{pmatrix}
+        x\\
+        0 \\
+        4x
+    \end{pmatrix} = \begin{pmatrix}
+        0\\
+        0\\
+        0
+    \end{pmatrix}
+\end{equation*}
+We get the system of equations
+\begin{align*}
+    k_{1} + k_{2}e + k_3/2 + k_{4}x &= 0\\
+    k_{2}\pi + k_{3}/3 &= 0\\
+    4k_{1} + \sqrt{104}k_{2} + k_{3}/4 + 4xk_{4} &= 0
+\end{align*}
+But then $k_{2} = \frac{k_{3}}{3\pi}$, then substitute this and multiply the first equation by 4 on each side
+\begin{equation*}
+    4k_{1} + \frac{4e}{3\pi}k_{3} + 2k_{3} + 4xk_{4} = 0
+\end{equation*}
+Now subtracting from the third equation, we get
+\begin{equation*}
+    \left(\frac{4e}{3\pi} + 2 - \frac{\sqrt{104}}{3\pi} - \frac{1}{4}\right)k_{3} = 0 \implies k_{3} = 0 \implies k_{2} = 0 \implies k_{1}, k_{4} = 0
+\end{equation*}
+For no value of $x$ can this system be solved, thus these vectors are never linearly independent. Conversely, they are linearly dependent for all $x \in \mathbb{R}$. 
+\section*{Problem 3}
+\emph{Solution. }When $x = -1$, we have the equation $a - b + c = 0 \implies c = b-a$, so we have the quadratic polynomials of form $p(x) = ax^{2} - bx + b-a = (x^2 - 1)a + (1-x)b$. Observe that $\{t^{2} - 1, 1 - t\}$ spans this vector space, and they are obviously linearly independent, thus they form a basis for this space.\newpage
+\section*{Problem 4}
+\emph{Solution. }Let's first find the reduced row-echelon form of $A$. To do so:
+\begin{equation*}
+    \text{rref}(A) = \begin{pmatrix}
+        1& -3\\
+        3 & -9
+    \end{pmatrix} \xrightarrow{r_{2} := r_{2} - 3r_{1}}
+    \begin{pmatrix}
+        1 & -3\\
+        0 & 0
+    \end{pmatrix}
+\end{equation*}
+Let's also find $\text{rref}(A^{T})$, which is
+\begin{equation*}
+    \text{rref}(A^T) = \begin{pmatrix}
+        1 & 3\\
+        -3 & -9
+    \end{pmatrix} \xrightarrow{r_{2} := r_{2} + 3r_{1}} \begin{pmatrix}
+        1 & 3\\
+        0 & 0
+    \end{pmatrix}
+\end{equation*}
+Now, the kernel of $A$ is simply given by $\mathbf{x} = \langle x_1,x_2\rangle^T$ such that
+\begin{equation*}
+    \begin{pmatrix}
+        1 & -3\\
+        0 & 0
+    \end{pmatrix}\begin{pmatrix}
+        x_1 \\
+        x_2
+    \end{pmatrix}= \begin{pmatrix}
+        0\\
+        0
+    \end{pmatrix}
+\end{equation*}
+This gives us $x_1 - 3x_2 = 0$, thus 
+\begin{equation*}
+    \text{Ker}A = \{\langle 3t, t \rangle^{T} \ | \ t\in\mathbb{R}\}
+\end{equation*}
+The basis for $\text{Ker}A$ is trivially $\{\langle 3, 1\rangle\}$. For the $\text{CoKer}A$, we have $\mathbf{x} = \langle x_1, x_{2} \rangle^{T}$ such that
+\begin{equation*}
+     \begin{pmatrix}
+        1 & 3\\
+        0 & 0
+    \end{pmatrix}\begin{pmatrix}
+        x_1\\
+        x_2
+    \end{pmatrix} = \begin{pmatrix}
+        0\\
+        0
+    \end{pmatrix}
+\end{equation*}
+which simply gives us $x_1 = -3x_2$, thus
+\begin{equation*}
+    \text{CoKer}A = \{\langle -3t, t \rangle \ | \ t \in \mathbb{R}\}
+\end{equation*}
+The basis for $\text{CoKer}(A)$ is trivially then $\{\langle -3,1\rangle\}$. For the image of $A$, $\text{Im}(A)$, it's just the set of columns of the original matrix that correspond to $\text{rref}(A)$'s pivot. Clearly the basis for the image then is the first column of $A$, $\{\langle 1, 3\rangle\}$. For the co-image of $A$, we simply have the image of $A^{T}$, once again, the first column of $A^{T}$ corresponds to $\text{rref}(A^{T})$'s pivot, so the basis for the coimage is simply the first column of $A^T$ or $\{1, -3\}$.
+\begin{finans*}
+These are the final bases compiled:
+    \begin{align*}
+        \text{Basis of Ker}A &= \{\langle 3,1\rangle\}\\
+        \text{Basis of Im}A &= \{\langle 1,3\rangle\}\\
+        \text{Basis of CoKer}A &= \{\langle -3, 1\rangle\}\\
+        \text{Basis of CoIm}A &= \{\langle 1, -3 \rangle\}
+    \end{align*}
+\end{finans*}
+\section*{Problem 5}
+\emph{Solution. }For the angle $\theta$ between $x$ and $x^2$ we have
+\begin{equation*}
+    \theta = \cos^{-1}\left(\frac{\langle x, x^2\rangle}{||\langle x, x\rangle||\cdot||\langle x^2, x^2 \rangle||}\right)
+\end{equation*}
+\newpage
+\noindent{Now} let's first compute
+\begin{equation*}
+    \langle x, x^2 \rangle = \int_{0}^{1}(x^3 + 2x)\text{d}x = \left[\frac{x^4}{4} + x^2\right]_{0}^{1} = \frac{5}{4}
+\end{equation*}
+Now let's compute
+\begin{equation*}
+    ||\langle x, x\rangle|| = \sqrt{\int_{0}^{1} (x^2 + 1)\text{d}x} = \sqrt{\left[\frac{x^3}{3} + 1\right]_{0}^{1}} = \sqrt{\frac{4}{3}}
+\end{equation*}
+Now let's compute
+\begin{equation*}
+    ||\langle x^2, x^2\rangle|| = \sqrt{\int_{0}^{1} (x^4 + 4x^2)\text{d}x} = \sqrt{\left[\frac{x^5}{5} + 4\frac{x^3}{3}\right]_{0}^{1}} = \sqrt{\frac{23}{15}}
+\end{equation*}
+Finally, for $\theta$ we have
+\begin{equation*}
+    \theta = \cos^{-1}\left(\frac{5/4}{\sqrt{\frac{4}{3}}\sqrt{\frac{23}{15}}}\right) = \cos^{-1}\left(\frac{15\sqrt{5}}{8\sqrt{23}}\right) = \cos^{-1}\left(\frac{33.54}{38.36}\right) \implies \theta = 29^{\circ}
+\end{equation*}
+\section*{Problem 6}
+\emph{Solution. }Notice that maximizing $f(x,y,z)$ is akin to minimizing $g(x,y,z) = -f(x,y,z)$, specifically (with $\mathbf{x} = \langle x, y, z\rangle$) minimizing 
+\begin{equation*}
+    g(\mathbf{x}) = -z + x + y + x^2 + y^2 + z^2 + xz
+\end{equation*}
+For some $\mathbf{x} \in \mathbb{R}^{n}$, when $K = K^{T}$, $g(\mathbf{x})$ can be expressed as a general quadratic form:
+\begin{equation*}
+    g(\mathbf{x}) = \mathbf{x}^{T}K\mathbf{x} - 2\mathbf{x}^{T}\mathfrak{f} + c
+\end{equation*}
+Notice that $K$ is simply
+\begin{equation*}
+    K = \begin{pmatrix}
+        1 & 0 & \frac{1}{2}\\
+        0 & 1 & 0\\
+        \frac{1}{2} & 0 & 1
+    \end{pmatrix}
+\end{equation*}
+To calculate $\mathfrak{f}$, it is easy to multiply $\mathbf{x}^{T}K\mathbf{x}$, set $c = 0$, and find out that 
+\begin{equation*}
+    \mathfrak{f} = \begin{pmatrix}
+        \frac{-1}{2}\\
+        \frac{-1}{2}\\
+        \frac{1}{2}
+    \end{pmatrix}
+\end{equation*}
+takes care of the 1st order terms of $g(\mathbf{x})$. Now the global minimizer (unique) is to be $x^{*} = K^{-1}\mathfrak{f}$ if $K$ is positive definite. Let's check through Sylvester's criterion if this is the case. 
+\begin{enumerate}
+    \item Upper Left 1-1 determinant: $\det \begin{pmatrix}
+            1
+        \end{pmatrix} = 1 > 0$
+    \item Upper Left 2-2 determinant:
+    \begin{equation*}
+        \det \begin{pmatrix}
+            1 & 0\\
+            0 & 1
+        \end{pmatrix} = 1\times 1 - 0 = 1 > 0
+    \end{equation*}
+    \item  Upper Left 3-3 determinant:
+    \begin{equation*}
+        \det \begin{pmatrix}
+        1 & 0 & \frac{1}{2}\\
+        0 & 1 & 0\\
+        \frac{1}{2} & 0 & 1
+    \end{pmatrix} = 1 \times 1 \times \frac{3}{4} = \frac{3}{4} > 0
+    \end{equation*}
+\end{enumerate}
+Since $K$ is positive definite, solving for $x^{*} = K^{-1}\mathfrak{f}$ provides us with a unique global minimum for $g(\mathbf{x})$.  At this point, we can simply calculate the following:
+\begin{equation*}
+    x^{*} = \begin{pmatrix}
+        1 & 0 & \frac{1}{2}\\
+        0 & 1 & 0\\
+        \frac{1}{2} & 0 & 1
+    \end{pmatrix}^{-1}\begin{pmatrix}
+        \frac{-1}{2}\\
+        \frac{-1}{2}\\
+        \frac{1}{2}
+    \end{pmatrix} = \begin{pmatrix}
+        \frac{4}{3} & 0 & \frac{-2}{3}\\
+        0 & 1 & 0\\
+        \frac{-2}{3} & 0 & \frac{4}{3}
+    \end{pmatrix}\begin{pmatrix}
+        \frac{-1}{2}\\
+        \frac{-1}{2}\\
+        \frac{1}{2}
+    \end{pmatrix} = \begin{pmatrix}
+        -1\\
+        \frac{-1}{2}\\
+        1
+    \end{pmatrix}
+\end{equation*}
+Thus $g$ is minimized globally and uniquely at $x = -1, y = -0.5, z = 1$ thus $f(x,y,z)$ is maximized at this point. Specifically, the maximum value is 
+\begin{equation*}
+    f\left(-1, \frac{-1}{2}, 1\right) = 3.5 - 2.25 = 1.25 = \frac{5}{4}
+\end{equation*}
+\section*{Problem 7}
+\emph{Solution. }For this problem, first note the linear system can be represented in the form $A\mathbf{x} = b$, with $\mathbf{x} = \langle x,y\rangle$ as
+\begin{equation*}
+    \begin{pmatrix}
+        1 & 2\\
+        3 & -1\\
+        -1 & 2
+    \end{pmatrix} \langle x, y\rangle = \begin{pmatrix}
+        1\\
+        0\\
+        4
+    \end{pmatrix}
+\end{equation*}
+Notice that the kernel of $A$ contains only the zero vector because $x + 2y = 0, -x + 2y = 0$ can never have a solution where $x \neq 0$, but that implies $y = 0$, which is the only solution. Since $\text{Ker}A = \{\mathbf{0}\}$, the least squares solution to $A\mathbf{x} = b$ is given simply by calculating
+\begin{align*}
+    x^{*} &= (A^{T}A)^{-1}A^{T}b\\
+    &= \left(\begin{pmatrix}
+        1 & 3 & -1\\
+        2 & -1 & 2
+    \end{pmatrix}\cdot \begin{pmatrix}
+        1 & 2\\
+        3 & -1\\
+        -1 & 2
+    \end{pmatrix}\right)^{-1}\begin{pmatrix}
+        1 & 3 & -1\\
+        2 & -1 & 2
+    \end{pmatrix}\cdot \begin{pmatrix}
+        1\\
+        0\\
+        4
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        11 & -3\\
+        -3 & 9
+    \end{pmatrix}^{-1}\left(\begin{pmatrix}
+        1 & 3 & -1\\
+        2 & -1 & 2
+    \end{pmatrix}\cdot \begin{pmatrix}
+        1\\
+        0\\
+        4
+    \end{pmatrix}\right)\\
+    &= \begin{pmatrix}
+    \frac{1}{10} & \frac{1}{30}\\
+    \frac{1}{30} & \frac{11}{90}
+    \end{pmatrix}\begin{pmatrix}
+        -3\\
+        10
+    \end{pmatrix} = \begin{pmatrix}
+        \frac{1}{30}\\
+        \frac{101}{90}
+    \end{pmatrix}
+\end{align*}
+Thus $x^{*} = \langle \frac{1}{30}, \frac{101}{90}\rangle^{T}$ is the least squares solution
+\section*{Problem 8}
+\begin{proof}
+    Recall to show two sets $\text{Ker}(A) = \text{Ker}(A^{T}A)$, it is sufficient to show for arbitrary $u \in \text{Ker}(A)$, $u \in \text{Ker}(A^{T}A)$ and for arbitrary $v \in \text{Ker}(A^{T}A)$, $v \in \text{Ker}(A)$. In the first case, $u \in \text{Ker}(A) \implies A\cdot u = 0 \implies A^{T}Au = 0 \implies u \in \text{Ker}(A^{T}A)$. In the second case, $v \in \text{Ker}(A^{T}A) \implies A^{T}Av = 0 \implies A^{T}v^{T}Av = 0 \implies (Av)^{T}Av = 0$ but $(Av)^{T}Av$ induces the standard norm $||\cdot ||$, thus $||Av||^{2} = 0 \implies ||Av|| = 0 \implies Av=  0$ thus $v \in \text{Ker}(A)$. 
+\end{proof}
+
+\end{document}
