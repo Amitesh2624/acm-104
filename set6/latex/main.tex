@@ -1,0 +1,84 @@
+\documentclass{article}
+\usepackage{graphicx}% Required for inserting images
+\usepackage{lindrew}
+\usepackage{pdfpages}
+\usepackage[shortlabels]{enumitem}
+\usepackage{matlab-prettifier}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\title{ACM 104 Problem Set 6}
+\author{Amitesh Pandey}
+\date{November 2024}
+\begin{document}
+\maketitle
+\section*{Problem 3: Matrix Diagonalization}
+\emph{Solution. } We are given
+\begin{equation*}
+    F = \begin{pmatrix}
+        1 & 1\\
+        1 & 0
+    \end{pmatrix}
+\end{equation*}
+First, let's find the eigenvalues of $F$. We will have 
+\begin{equation*}
+    \det(F - \lambda I) = 0 \implies \det \begin{pmatrix}
+        1 - \lambda & 1\\
+        1 & -\lambda
+    \end{pmatrix} = 0
+\end{equation*}
+This means $\lambda^2 - \lambda - 1= 0$. On solving this quadratic, we obtain values
+\begin{align*}
+    \lambda &= \frac{1 + \sqrt{5}}{2}\\
+    &= \frac{1 - \sqrt{5}}{2}
+\end{align*}
+For eigenvectors $v = \langle x, y\rangle$ we will have
+\begin{equation*}
+    F v = \lambda v
+\end{equation*}
+This produces the following system of linear equations
+\begin{align*}
+    x + y &= \lambda x\\
+    x &= \lambda y
+\end{align*}
+Depending on $\lambda$, we get the two eigenvectors (putting $y = 1$) as
+\begin{equation*}
+    v_{1} = \begin{pmatrix}
+        \frac{1 + \sqrt{5}}{2}\\
+        1
+    \end{pmatrix},  v_{2} = \begin{pmatrix}
+        \frac{1 - \sqrt{5}}{2}\\
+        1
+    \end{pmatrix}
+\end{equation*}
+\noindent{So} in the diagonalised form, $F$ simply becomes
+\begin{equation*}
+    F_{d} = \begin{pmatrix}
+        \frac{1 + \sqrt{5}}{2} & 0\\
+        0 & \frac{1 - \sqrt{5}}{2}
+    \end{pmatrix}, B = \begin{pmatrix}
+    \frac{1 + \sqrt{5}}{2} & \frac{1 - \sqrt{5}}{2}\\
+    1 & 1
+    \end{pmatrix} \implies B^{-1} = \begin{pmatrix}
+        \frac{1}{\sqrt{5}} & -\frac{1-\sqrt{5}}{2 \sqrt{5}} \\
+-\frac{1}{\sqrt{5}} & \frac{1+\sqrt{5}}{2 \sqrt{5}}
+    \end{pmatrix}
+\end{equation*}
+Now we can see that 
+\begin{equation*}
+    F = B F_{d} B^{-1} = \begin{pmatrix}
+    \frac{1 + \sqrt{5}}{2} & \frac{1 - \sqrt{5}}{2}\\
+    1 & 1
+    \end{pmatrix} \begin{pmatrix}
+        \frac{1 + \sqrt{5}}{2} & 0\\
+        0 & \frac{1 - \sqrt{5}}{2}
+    \end{pmatrix}\begin{pmatrix}
+        \frac{1}{\sqrt{5}} & -\frac{1-\sqrt{5}}{2 \sqrt{5}} \\
+-\frac{1}{\sqrt{5}} & \frac{1+\sqrt{5}}{2 \sqrt{5}}\end{pmatrix}
+\end{equation*}
+\newpage
+\section*{Problem 4: Symmetric Matrices}
+\emph{Solution. }(a) Yes, $\text{Sym}(n)$ is a vector space, this is because the operations have the same properties on this set as they do on $\mathbb{M}_{n \times n}$, additionally, note that for any symmetric matrix, the additive inverse is guaranteed to be symmetric as well, also, the additive identity $\mathbf{0}$ is obviously symmetric. \\\\
+(b) Note that the diagonals can be arbitrary in symmetric matrices. We must have $n$ matrices to account for arbitrary values on the diagonal. Additionally, we need to account for each ``flipped" position across the diagonal \emph{once}. We count all $i, j $ such that $i \neq j$. This is $n^2 - n$. Removing double counting, we get $(n^2 - n)/2$. So finally, the dimension is $(n^2 + n)/2 = n(n+1)/2$. These are the number of linearly independent matrices we need to generate all matrices in $\text{Sym}(n)$. The basis will simply be the set of all where all entries on the diagonal get a matrix with 1 on that entry and 0 elsewhere and each ``flipped" element gets an entry 1 with 0 everywhere else except for the corresponding flipped position. \\\\
+\includepdf[pages=-]{PS6matlab.pdf}
+\end{document}
